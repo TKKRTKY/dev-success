@@ -1,4 +1,5 @@
 import { initialProjectConfig } from './domain/projectConfig'
+import { resolveAgentCommandConfig } from './domain/agents'
 import type {
   ProjectConfig,
   ProjectSetupDraft,
@@ -19,7 +20,12 @@ export const applyProjectSetupDraft = (
   current: ProjectConfig,
   currentScenarioMaxTurn: number,
   draft: ProjectSetupDraft,
-): AppliedProjectSetupDraft => ({
+): AppliedProjectSetupDraft => {
+  const defaultAgent =
+    draft.defaultAgent ??
+    current.defaultAgent ??
+    initialProjectConfig.defaultAgent
+  return {
   projectConfig: {
     ...current,
     appName: keepOrDefault(
@@ -50,10 +56,12 @@ export const applyProjectSetupDraft = (
       draft.packageManager ??
       current.packageManager ??
       initialProjectConfig.packageManager,
-    defaultAgent:
-      draft.defaultAgent ??
-      current.defaultAgent ??
-      initialProjectConfig.defaultAgent,
+    defaultAgent,
+    // defaultAgentに合わせてコマンド設定も揃える（ズレていれば既定へ寄せる）。
+    agentCommandConfig: resolveAgentCommandConfig(
+      defaultAgent,
+      current.agentCommandConfig,
+    ),
     developmentStyle:
       draft.developmentStyle ??
       current.developmentStyle ??
@@ -83,7 +91,8 @@ export const applyProjectSetupDraft = (
   },
   scenarioMaxTurn:
     draft.scenarioMaxTurn || currentScenarioMaxTurn || 12,
-})
+  }
+}
 
 export const createEditableProjectSetupDraft = (
   current: ProjectConfig,

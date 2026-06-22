@@ -1,4 +1,4 @@
-import type { AgentKind } from './types'
+import type { AgentCommandConfig, AgentKind } from './types'
 
 // 自動実行に対応するCLIエージェント種別。AgentKindのうち、backendが
 // 実際にコマンドを起動できるものだけをここで扱う。
@@ -84,3 +84,40 @@ export const getAgentLabel = (kind: AgentKind): string => {
 // 自動実行に対応しているか（manualや未対応エージェントの判定に使う）。
 export const isAutoRunAgentKind = (kind: AgentKind): kind is CliAgentKind =>
   isCliAgentKind(kind)
+
+// いずれかのCLIエージェントの既定コマンド名か（別エージェントの既定値が
+// 残っているだけかどうかの判定に使う）。
+export const isKnownDefaultCommand = (command: string): boolean =>
+  CLI_AGENT_KINDS.some(
+    (kind) => CLI_AGENT_SPECS[kind].defaultCommand === command.trim(),
+  )
+
+const commandBasename = (command: string): string =>
+  command.trim().split(/[\\/]/).pop()?.toLowerCase() ?? ''
+
+// 選択エージェントに対して整合するコマンド設定を返す。
+// defaultAgentとagentCommandConfigがズレている（例: opencodeを選んだのに
+// コマンドがcodexのまま）場合に、選択エージェントの既定値へ寄せる。
+// ユーザー独自のコマンド（絶対パス等）は保持する。
+export const resolveAgentCommandConfig = (
+  kind: AgentKind,
+  current: AgentCommandConfig,
+): AgentCommandConfig => {
+  if (!isCliAgentKind(kind)) return current
+  const spec = CLI_AGENT_SPECS[kind]
+  const command = current.codexCommand.trim()
+  // 既にこのエージェント用の正しいコマンド名なら維持（独自の絶対パス含む）。
+  if (spec.allowedCommandBasenames.includes(commandBasename(command))) {
+    return current
+  }
+  // 空、または別エージェントの既定コマンドのままなら、このエージェントの
+  // 既定コマンド・引数へ合わせる。
+  if (command === '' || isKnownDefaultCommand(command)) {
+    return {
+      codexCommand: spec.defaultCommand,
+      codexArgs: spec.defaultArgs,
+    }
+  }
+  // それ以外（ユーザー独自のコマンド）はそのまま維持する。
+  return current
+}

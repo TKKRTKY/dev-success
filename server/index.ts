@@ -12,6 +12,7 @@ import { DEFAULT_AGENT_TIMEOUT_MS } from '../src/domain/projectConfig'
 import {
   CLI_AGENT_SPECS,
   isCliAgentKind,
+  resolveAgentCommandConfig,
   type CliAgentKind,
 } from '../src/domain/agents'
 import { CliAgentAdapter } from './CliAgentAdapter'
@@ -78,14 +79,18 @@ const parseAgentCommandConfig = (
   agentKind: CliAgentKind,
 ): { codexCommand: string; codexArgs: string } | { error: string } => {
   const spec = CLI_AGENT_SPECS[agentKind]
-  const codexCommand =
-    typeof body.codexCommand === 'string' && body.codexCommand.trim()
-      ? body.codexCommand.trim()
-      : spec.defaultCommand
-  const codexArgs =
-    typeof body.codexArgs === 'string'
-      ? body.codexArgs.trim() || spec.defaultArgs
-      : spec.defaultArgs
+  const rawCommand =
+    typeof body.codexCommand === 'string' ? body.codexCommand.trim() : ''
+  const rawArgs =
+    typeof body.codexArgs === 'string' ? body.codexArgs.trim() : ''
+  // defaultAgentとコマンド設定がズレている（別エージェントの既定値が
+  // 残っている等）場合は、選択エージェントの既定へ寄せてから検証する。
+  const resolved = resolveAgentCommandConfig(agentKind, {
+    codexCommand: rawCommand || spec.defaultCommand,
+    codexArgs: rawArgs || spec.defaultArgs,
+  })
+  const codexCommand = resolved.codexCommand
+  const codexArgs = resolved.codexArgs.trim() || spec.defaultArgs
 
   if (
     !codexCommand ||

@@ -20,6 +20,7 @@ import {
   getAgentLabel,
   isAutoRunAgentKind,
   isCliAgentKind,
+  resolveAgentCommandConfig,
 } from './domain/agents'
 import type {
   AgentAdapter,
@@ -295,7 +296,7 @@ function App({ agentAdapter }: AppProps) {
     useState<AgentRunResponse | null>(null)
   const [agentRunning, setAgentRunning] = useState(false)
   const [agentRunStage, setAgentRunStage] = useState<
-    'idle' | 'codex' | 'diff' | 'review'
+    'idle' | 'agent' | 'diff' | 'review'
   >('idle')
   const [verificationSelectionVisible, setVerificationSelectionVisible] =
     useState(false)
@@ -1500,7 +1501,7 @@ function App({ agentAdapter }: AppProps) {
     }
 
     setAgentRunning(true)
-    setAgentRunStage('codex')
+    setAgentRunStage('agent')
     setAgentRunResult(null)
     try {
       const response = await fetch('/api/agent/run', {
@@ -1841,35 +1842,17 @@ function App({ agentAdapter }: AppProps) {
     setConfigSaved(false)
   }
 
-  // 既知のCLIエージェントの既定コマンド名か（ユーザー独自の絶対パスは
-  // 上書きしない判定に使う）。
-  const isKnownDefaultCommand = (command: string): boolean =>
-    Object.values(CLI_AGENT_SPECS).some(
-      (spec) => spec.defaultCommand === command.trim(),
-    )
-
   // 実行エージェントを切り替えたとき、コマンド/引数が未編集（空または
   // 別エージェントの既定値）なら、新しいエージェントの既定値へ合わせる。
   const handleConfigAgentChange = (kind: AgentKind) => {
-    setConfigDraft((current) => {
-      if (!isCliAgentKind(kind)) {
-        return { ...current, defaultAgent: kind }
-      }
-      const spec = CLI_AGENT_SPECS[kind]
-      const currentCommand = current.agentCommandConfig.codexCommand.trim()
-      const shouldReplace =
-        currentCommand === '' || isKnownDefaultCommand(currentCommand)
-      return {
-        ...current,
-        defaultAgent: kind,
-        agentCommandConfig: shouldReplace
-          ? {
-              codexCommand: spec.defaultCommand,
-              codexArgs: spec.defaultArgs,
-            }
-          : current.agentCommandConfig,
-      }
-    })
+    setConfigDraft((current) => ({
+      ...current,
+      defaultAgent: kind,
+      agentCommandConfig: resolveAgentCommandConfig(
+        kind,
+        current.agentCommandConfig,
+      ),
+    }))
     setConfigSaved(false)
   }
 
@@ -3828,7 +3811,7 @@ function App({ agentAdapter }: AppProps) {
                     <div className="implementation-review-progress" aria-live="polite">
                       <span
                         className={
-                          agentRunStage === 'codex' ? 'is-active' : 'is-done'
+                          agentRunStage === 'agent' ? 'is-active' : 'is-done'
                         }
                       >
                         {projectConfig.defaultAgent === 'manual'
@@ -3863,7 +3846,7 @@ function App({ agentAdapter }: AppProps) {
                       disabled={agentRunning}
                     >
                       <span>01</span>
-                      {agentRunStage === 'codex'
+                      {agentRunStage === 'agent'
                         ? projectConfig.defaultAgent === 'manual'
                           ? '手動実装の準備中…'
                           : 'エージェント実行中…'

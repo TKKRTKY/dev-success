@@ -3,7 +3,7 @@
     'Hiragino Maru Gothic ProN', 'Yu Gothic UI', 'Yu Gothic', system-ui,
     sans-serif;
   color: #25304a;
-  background: #9ed7d3;
+  background: transparent;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   --ink: #25304a;
@@ -28,10 +28,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 15% 12%, rgba(255, 244, 184, 0.9) 0 3px, transparent 4px),
-    radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.7) 0 2px, transparent 3px),
-    linear-gradient(180deg, #7fc8cf 0 42%, #a8d18d 42% 100%);
-  background-size: 92px 92px, 118px 118px, auto;
+    linear-gradient(180deg, #3d9bea 0%, #6dbcf5 28%, #a4daf7 42%, #c2e8b8 50%, #7bc47a 62%, #4ea04e 100%);
 }
 
 button,
