@@ -18,6 +18,7 @@ const packageManagers = new Set<PackageManager>([
 const agentKinds = new Set<AgentKind>([
   'codex',
   'claude-code',
+  'opencode',
   'cursor',
   'devin',
   'manual',
