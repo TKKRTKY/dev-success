@@ -358,7 +358,7 @@ export const AgentConnectionCheck = ({
 }) => (
   <div className="agent-connection-check">
     <button type="button" onClick={onCheck} disabled={checking}>
-      {checking ? 'Codexを確認中…' : 'Codex疎通確認'}
+      {checking ? 'エージェントを確認中…' : 'エージェント疎通確認'}
     </button>
     {result && (
       <p

@@ -19,9 +19,9 @@ const playtestItems = [
   { id: 'build-prompt', label: '実装プロンプトが生成される' },
   {
     id: 'agent-route',
-    label: 'Codex実行または手動実行導線が使える',
+    label: 'エージェント実行または手動実行導線が使える',
   },
-  { id: 'auto-diff', label: 'Codex実行後にgit diffが取得される' },
+  { id: 'auto-diff', label: 'エージェント実行後にgit diffが取得される' },
   { id: 'review-updated', label: 'ImplementationReviewが更新される' },
   {
     id: 'recommended-verifications',

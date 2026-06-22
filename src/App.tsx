@@ -2918,7 +2918,7 @@ function App({ agentAdapter }: AppProps) {
                   )}
                   {!setupDraft.repositoryPath && (
                     <p className="setup-assistant-note">
-                      Codex実行やgit diff取得には、後でリポジトリパス設定が必要です。
+                      エージェント実行やgit diff取得には、後でリポジトリパス設定が必要です。
                     </p>
                   )}
                   <div className="setup-reorganize">
@@ -3217,7 +3217,7 @@ function App({ agentAdapter }: AppProps) {
               )}
               {!configDraft.repositoryPath.trim() && (
                 <p className="setup-assistant-note">
-                  Codex実行やgit diff取得には、後でリポジトリパス設定が必要です。
+                  エージェント実行やgit diff取得には、後でリポジトリパス設定が必要です。
                 </p>
               )}
               <button
@@ -4184,7 +4184,7 @@ function App({ agentAdapter }: AppProps) {
                 </div>
               )}
               <label className="building-result-form">
-                <span>Codexなどの実装結果</span>
+                <span>エージェントなどの実装結果</span>
                 <textarea
                   value={implementationResult}
                   onChange={(event) =>
@@ -4830,7 +4830,7 @@ function App({ agentAdapter }: AppProps) {
             <span>対象コマンド</span>
             <strong>{commandDefinitions[promptCommand].label}</strong>
             <p>
-              Codexなどの実行結果を貼り付けてください。ログ、変更ファイル、
+              エージェントなどの実行結果を貼り付けてください。ログ、変更ファイル、
               成功・失敗の語句から簡易的にRunResultを生成します。
             </p>
           </div>
