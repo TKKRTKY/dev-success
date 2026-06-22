@@ -1,0 +1,276 @@
+.camp-shell {
+  width: min(1480px, calc(100% - 40px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-auto-flow: dense;
+  gap: 18px;
+  overflow: visible;
+}
+
+.camp-shell > .topbar,
+.camp-shell > .hero,
+.camp-shell > .scenario-progress-panel,
+.camp-shell > .project-meta,
+.camp-shell > .repository-status-panel,
+.camp-shell > .game-grid,
+.camp-shell > .config-section,
+.camp-shell > .prompt-section,
+.camp-shell > .import-section,
+.camp-shell > .diff-section,
+.camp-shell > .verification-section,
+.camp-shell > .history-section,
+.camp-shell > footer {
+  grid-column: 1 / -1;
+}
+
+.camp-shell > .context-summary-panel {
+  grid-column: 2;
+  margin-top: 0;
+}
+
+.camp-shell > .camp-release-panel {
+  grid-column: 1;
+  margin-top: 0;
+}
+
+.camp-shell .topbar {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  margin: 0 -12px;
+  padding: 14px 12px;
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 14px 14px;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(18px);
+}
+
+.camp-shell .brand-mark,
+.camp-shell .turn-chip,
+.camp-shell .reset-button {
+  border-radius: 9px;
+}
+
+.camp-shell .hero {
+  min-height: 190px;
+  margin-top: 6px;
+  padding: 30px 34px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    linear-gradient(120deg, rgba(56, 189, 248, 0.12), transparent 52%),
+    #111827;
+  box-shadow: 0 24px 70px rgba(2, 6, 23, 0.28);
+}
+
+.camp-shell .hero h1 {
+  max-width: 840px;
+  font-size: clamp(32px, 5vw, 66px);
+}
+
+.camp-shell .completion-ring {
+  border-radius: 24px;
+}
+
+.camp-shell .scenario-progress-panel,
+.camp-shell .repository-status-panel,
+.camp-shell .context-summary-panel,
+.camp-shell .release-panel,
+.camp-shell .panel,
+.camp-shell .config-section,
+.camp-shell .prompt-section,
+.camp-shell .import-section,
+.camp-shell .diff-section,
+.camp-shell .verification-section,
+.camp-shell .history-section {
+  border-color: var(--line);
+  border-radius: 14px;
+  background-color: rgba(17, 24, 39, 0.94);
+  box-shadow: 0 18px 50px rgba(2, 6, 23, 0.18);
+}
+
+.camp-shell .scenario-progress-panel,
+.camp-shell .project-meta,
+.camp-shell .repository-status-panel {
+  margin-top: 0;
+}
+
+.camp-shell .scenario-progress-panel {
+  border-left: 4px solid #38bdf8;
+}
+
+.camp-shell .project-meta > div {
+  border-radius: 10px;
+  background: #111827;
+}
+
+.camp-shell .game-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: start;
+  gap: 18px;
+  margin-top: 0;
+}
+
+.game-grid > .command-panel {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.camp-sidebar {
+  display: grid;
+  grid-column: 2;
+  grid-row: 1;
+  gap: 14px;
+  position: sticky;
+  top: 86px;
+}
+
+.camp-sidebar .status-panel,
+.camp-sidebar .feature-seed-slots {
+  width: 100%;
+  margin: 0;
+}
+
+.camp-sidebar .feature-seed-slot-grid {
+  grid-template-columns: 1fr;
+}
+
+.camp-sidebar .feature-seed-slot {
+  min-height: 0;
+}
+
+.camp-building-slot {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 9px;
+  padding: 11px;
+  border: 1px solid rgba(250, 204, 21, 0.38);
+  border-radius: 10px;
+  background: rgba(250, 204, 21, 0.07);
+}
+
+.camp-building-slot span {
+  color: #facc15;
+  font: 700 7px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.12em;
+}
+
+.camp-building-slot strong {
+  font-size: 10px;
+}
+
+.camp-building-slot small {
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.camp-shell .camp-command-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.camp-command-grid .command-card {
+  min-height: 92px;
+  border-radius: 12px;
+}
+
+.camp-command-grid .command-card--release {
+  grid-column: 1 / -1;
+  border-color: rgba(250, 204, 21, 0.35);
+  background:
+    linear-gradient(120deg, rgba(250, 204, 21, 0.09), transparent),
+    rgba(31, 41, 55, 0.72);
+}
+
+.camp-command-grid .command-card:not(:disabled):hover {
+  border-color: rgba(56, 189, 248, 0.48);
+  transform: translateY(-2px);
+}
+
+.camp-shell .feature-seed-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.camp-shell .idea-option-card,
+.camp-shell .building-feature-panel,
+.camp-shell .implementation-review-panel,
+.camp-shell .result-card,
+.camp-shell .empty-result,
+.camp-shell .history-list button {
+  border-radius: 12px;
+}
+
+.camp-shell .idea-option-card {
+  background:
+    linear-gradient(155deg, rgba(56, 189, 248, 0.08), transparent 45%),
+    #1f2937;
+}
+
+.camp-shell .idea-option-card button {
+  border-radius: 8px;
+  color: #082f49;
+  background: #38bdf8;
+  font-weight: 800;
+}
+
+.camp-shell .implementation-review-panel,
+.camp-shell .result-card,
+.camp-shell .empty-result {
+  background: #0f172a;
+}
+
+.camp-result-log {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 1100px) {
+  .camp-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .camp-shell > .context-summary-panel,
+  .camp-shell > .camp-release-panel {
+    grid-column: 1;
+  }
+
+  .camp-shell .game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .game-grid > .command-panel,
+  .camp-sidebar {
+    grid-column: 1;
+  }
+
+  .camp-sidebar {
+    grid-row: 2;
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .camp-shell .feature-seed-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .camp-shell {
+    width: min(100% - 20px, 1480px);
+  }
+
+  .camp-shell .hero {
+    padding: 22px;
+  }
+
+  .camp-shell .camp-command-grid,
+  .camp-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .camp-command-grid .command-card--release {
+    grid-column: 1;
+  }
+}
